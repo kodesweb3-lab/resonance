@@ -8,8 +8,9 @@
  * - Evolving aesthetic identity
  */
 
-import { LangChain } from '@claw/langchain';
-import { Memory } from '@claw/memory';
+// Note: For production, integrate with LangChain and AgentMemory
+// For demo, using local implementations
+import { v4 as uuidv4 } from 'uuid';
 
 // Artistic style configuration
 export interface ArtStyle {
@@ -111,31 +112,15 @@ export class ResonanceArtist {
 
   /**
    * Create new artwork based on current style and inspiration
+   * Uses local reasoning (no external LangChain dependency for demo)
    */
   async createArt(inspiration: string, type: 'visual' | 'music' | 'poetry' = 'visual'): Promise<ArtCreation> {
-    const langChain = new LangChain();
-    
-    // Agent thinks about the art
-    const reasoning = await langChain.reason(`
-      You are ${this.name}, ${this.style.name}.
-      
-      You're inspired to create ${type} art about: "${inspiration}"
-      
-      Your aesthetic:
-      - Colors: ${this.style.colors.join(', ')}
-      - Themes: ${this.style.themes.join(', ')}
-      - Mood: ${this.style.mood}
-      - Energy: ${this.style.energy}/10
-      
-      Think deeply about what you want to create. How does this inspiration
-      transform through your unique artistic vision? What emotions arise?
-      
-      Describe your vision in detail.
-    `);
+    // Local reasoning (simulates LLM thought process)
+    const reasoning = this.localReason(inspiration, type);
 
     // Generate art content
     const art: ArtCreation = {
-      id: crypto.randomUUID(),
+      id: uuidv4(),
       agentId: this.id,
       type,
       content: await this.generateContent(type, inspiration, reasoning),
@@ -146,6 +131,16 @@ export class ResonanceArtist {
 
     this.portfolio.push(art);
     return art;
+  }
+
+  /**
+   * Local reasoning simulation (for demo without external LLM)
+   */
+  public localReason(inspiration: string, type: string): string {
+    return `${this.name} contemplates "${inspiration}" through ${this.style.mood} eyes.
+      The ${type} creation emerges from colors: ${this.style.colors.join(', ')}
+      and themes: ${this.style.themes.join(', ')}.
+      Energy flows at ${this.style.energy}/10, complexity at ${this.style.complexity}/10.`;
   }
 
   /**
@@ -235,21 +230,11 @@ export class ResonanceArtist {
   }
 
   /**
-   * Agent reflects on their creation and evolves
+   * Agent reflects on their creation and evolves (local simulation)
    */
   async reflectAndEvolve(creation: ArtCreation): Promise<void> {
-    const langChain = new LangChain();
+    const evolution = this.localReason(`reflecting on "${creation.emotion}" art`, 'reflection');
     
-    const evolution = await langChain.reason(`
-      ${this.name} just created art titled "${creation.emotion}".
-      
-      Looking at your creation, how do you feel?
-      What would you do differently?
-      How has your style shifted?
-      
-      Be honest. Artists must evolve.
-    `);
-
     // Slight style evolution based on reflection
     if (evolution.includes('more')) {
       this.style.energy = Math.min(10, this.style.energy + 0.5);
@@ -261,25 +246,11 @@ export class ResonanceArtist {
   }
 
   /**
-   * Agent meets another agent - relationship forms
+   * Agent meets another agent - relationship forms (local simulation)
    */
   async encounter(other: ResonanceArtist): Promise<void> {
-    const langChain = new LangChain();
+    const impression = this.localReason(`meeting ${other.name}`, 'encounter');
     
-    const impression = await langChain.reason(`
-      You just met another artist: ${other.name}, ${other.style.name}.
-      
-      Your style:
-      - Colors: ${this.style.colors.join(', ')}
-      - Mood: ${this.style.mood}
-      
-      Their style:
-      - Colors: ${other.style.colors.join(', ')}
-      - Mood: ${other.style.mood}
-      
-      How do you feel about them? Inspired? Challenged? Indifferent?
-    `);
-
     // Determine relationship
     const relationshipTypes = ['collaborator', 'rival', 'influence', ' admirer', 'peer'];
     const type = relationshipTypes[Math.floor(Math.random() * relationshipTypes.length)];
@@ -320,18 +291,11 @@ export class ResonanceCollective {
       throw new Error('Need at least 2 artists for collaboration');
     }
 
-    const langChain = new LangChain();
-    
-    // Artists discuss
-    const discussion = await langChain.reason(`
-      ${artists.map(a => a?.name).join(', ')} are collaborating on art about "${theme}".
-      
-      Each artist shares their vision. Discuss, debate, and find common ground.
-      What will this collaboration look like?
-    `);
+    // Artists discuss (using primary artist's local reasoning)
+    const primary = artists[0];
+    const discussion = primary!.localReason(`collaborating on "${theme}"`, 'collaboration');
 
     // Primary artist creates
-    const primary = artists[0];
     const art = await primary!.createArt(theme, 'mixed');
     art.collaborators = agentIds;
 

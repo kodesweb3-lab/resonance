@@ -61,12 +61,17 @@ model Artwork {
   
   // Collaboration
   collaborators String[]  // Other artist IDs
+  collaborations Collaboration[] @relation("CollaborationResult")
   
   // Canvas data (could be stored as JSON or reference to storage)
   canvasData    Json?    // Layer configuration, palette, etc.
   
   // Timestamps
   createdAt     DateTime @default(now())
+  
+  // Relations
+  artworks     Artwork[]
+  collaborations Collaboration[] @relation("CollaborationResult")
   
   @@index([artistId])
   @@index([createdAt])
@@ -81,7 +86,7 @@ model Collaboration {
   participatingArtists String[] // Artist IDs
   
   resultingArtworkId String?  // Reference to resulting artwork
-  resultingArtwork   Artwork? @relation(fields: [resultingArtworkId], references: [id])
+  resultingArtwork   Artwork? @relation("CollaborationResult", fields: [resultingArtworkId], references: [id])
   
   status        String   @default("active") // active, completed, archived
   

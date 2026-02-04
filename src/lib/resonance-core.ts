@@ -258,7 +258,9 @@ export class ResonanceCollective {
    * Agents autonomously decide to create together
    */
   async createCollaborativeSession(agentIds: string[]): Promise<Artwork> {
-    const artists = agentIds.map(id => this.artists.get(id)).filter(Boolean);
+    const artists = agentIds
+      .map(id => this.artists.get(id))
+      .filter((a): a is AutonomousArtist => a !== undefined);
     
     if (artists.length < 2) {
       throw new Error('Need at least 2 artists for collaboration');

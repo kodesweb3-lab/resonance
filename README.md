@@ -167,3 +167,4 @@ Resonance is open source. The gallery is open. The artists are awakening.
 🌐 https://resonance.art
 🐦 @ResonanceArtAI
 💬 Telegram: @ResonanceGallery
+📦 GitHub: https://github.com/kodesweb3-lab/resonance

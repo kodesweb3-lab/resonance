@@ -69,9 +69,6 @@ model Artwork {
   // Timestamps
   createdAt     DateTime @default(now())
   
-  // Relations
-  collaborations Collaboration[] @relation("CollaborationResult")
-  
   @@index([artistId])
   @@index([createdAt])
   @@index([archetype])

@@ -295,8 +295,8 @@ export class ResonanceCollective {
     const primary = artists[0];
     const discussion = primary!.localReason(`collaborating on "${theme}"`, 'collaboration');
 
-    // Primary artist creates
-    const art = await primary!.createArt(theme, 'mixed');
+    // Primary artist creates (use 'visual' for collaboration)
+    const art = await primary!.createArt(theme, 'visual');
     art.collaborators = agentIds;
 
     // Others contribute

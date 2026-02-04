@@ -40,7 +40,7 @@ const HackathonGallery: NextPage = () => {
   }, []);
 
   const fetchGallery = async () => {
-    const res = await fetch('/api/resonance?action=gallery');
+    const res = await fetch('/api/resonance/v2?action=gallery');
     const data = await res.json();
     if (data.success) {
       setState(data.resonance);
@@ -49,7 +49,7 @@ const HackathonGallery: NextPage = () => {
 
   const createArtwork = async (artistId: string) => {
     setGenerating(true);
-    const res = await fetch(`/api/resonance?action=create&id=${artistId}`);
+    const res = await fetch(`/api/resonance/v2?action=create&id=${artistId}`);
     const data = await res.json();
     if (data.success) {
       await fetchGallery();
@@ -62,7 +62,7 @@ const HackathonGallery: NextPage = () => {
 
   const createAutonomous = async () => {
     setGenerating(true);
-    const res = await fetch('/api/resonance', {
+    const res = await fetch('/api/resonance/v2', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ action: 'autonomous-create', artistId: 'artist-1' })
@@ -76,7 +76,7 @@ const HackathonGallery: NextPage = () => {
 
   const createCollaborative = async () => {
     setGenerating(true);
-    const res = await fetch('/api/resonance?action=collaborate&artists=artist-1,artist-2,artist-3');
+    const res = await fetch('/api/resonance/v2?action=collaborate&artists=artist-1,artist-2,artist-3');
     const data = await res.json();
     if (data.success) {
       await fetchGallery();
@@ -255,6 +255,56 @@ const HackathonGallery: NextPage = () => {
             </div>
           </section>
         )}
+
+        {/* Evolution Demo */}
+        <section style={styles.section}>
+          <h2 style={styles.sectionTitle}>🎭 Meet the Artists</h2>
+          {state && (
+            <div style={styles.evolutionGrid}>
+              {state.artists.map((artist) => (
+                <div key={artist.id} style={styles.evolutionCard}>
+                  <div style={styles.evolutionHeader}>
+                    <span style={styles.archetypeIcon}>
+                      {artist.archetype === 'dreamer' && '🌙'}
+                      {artist.archetype === 'architect' && '🏛️'}
+                      {artist.archetype === 'rebel' && '🔥'}
+                      {artist.archetype === 'poet' && '🌸'}
+                      {artist.archetype === 'alchemist' && '⚗️'}
+                    </span>
+                    <div>
+                      <h3 style={styles.artistName}>{artist.name}</h3>
+                      <p style={styles.artistArchetype}>The {artist.archetype}</p>
+                    </div>
+                  </div>
+                  <div style={styles.evolutionStats}>
+                    <div style={styles.evolutionStat}>
+                      <span style={styles.evolutionLabel}>Energy</span>
+                      <div style={styles.evolutionBar}>
+                        <div style={{...styles.evolutionFill, width: `${artist.energy * 10}%`}} />
+                      </div>
+                    </div>
+                    <div style={styles.evolutionStat}>
+                      <span style={styles.evolutionLabel}>Curiosity</span>
+                      <div style={styles.evolutionBar}>
+                        <div style={{...styles.evolutionFill, width: `${artist.curiosity * 10}%`}} />
+                      </div>
+                    </div>
+                    <div style={styles.evolutionStat}>
+                      <span style={styles.evolutionLabel}>Evolution</span>
+                      <div style={styles.evolutionBar}>
+                        <div style={{...styles.evolutionFill, width: `${Math.min(100, artist.evolution * 20)}%`}} />
+                      </div>
+                    </div>
+                  </div>
+                  <div style={styles.evolutionMeta}>
+                    <span>🎨 {artist.portfolioSize} artworks</span>
+                    <span>🤝 {artist.collaborators?.length || 0} collaborations</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
 
         {/* About */}
         <section style={styles.section}>
@@ -478,6 +528,60 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: '0.8rem',
     opacity: 0.5,
     fontStyle: 'italic',
+  },
+  evolutionGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gap: '1.5rem',
+  },
+  evolutionCard: {
+    padding: '1.5rem',
+    background: 'rgba(255,255,255,0.03)',
+    borderRadius: '1rem',
+    border: '1px solid rgba(255,255,255,0.1)',
+  },
+  evolutionHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '1rem',
+    marginBottom: '1rem',
+  },
+  evolutionStats: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.75rem',
+  },
+  evolutionStat: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.75rem',
+  },
+  evolutionLabel: {
+    fontSize: '0.8rem',
+    width: '70px',
+    opacity: 0.7,
+  },
+  evolutionBar: {
+    flex: 1,
+    height: '8px',
+    background: 'rgba(255,255,255,0.1)',
+    borderRadius: '4px',
+    overflow: 'hidden',
+  },
+  evolutionFill: {
+    height: '100%',
+    background: 'linear-gradient(90deg, #f093fb, #f5576c)',
+    borderRadius: '4px',
+    transition: 'width 0.3s',
+  },
+  evolutionMeta: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginTop: '1rem',
+    paddingTop: '1rem',
+    borderTop: '1px solid rgba(255,255,255,0.1)',
+    fontSize: '0.8rem',
+    opacity: 0.6,
   },
   features: {
     display: 'grid',

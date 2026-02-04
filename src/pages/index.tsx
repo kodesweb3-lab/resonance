@@ -198,12 +198,6 @@ const styles: Record<string, React.CSSProperties> = {
     borderTop: '1px solid rgba(255,255,255,0.1)',
     marginTop: '4rem',
   },
-  nav: {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '2rem',
-    marginTop: '1rem',
-  },
 };
 
 export default Gallery;

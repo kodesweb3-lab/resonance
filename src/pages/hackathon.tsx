@@ -8,7 +8,11 @@ interface Artist {
   archetype: string;
   mood: string;
   energy: number;
+  complexity: number;
+  curiosity: number;
+  evolution: number;
   portfolioSize: number;
+  collaborators: string[];
 }
 
 interface Artwork {

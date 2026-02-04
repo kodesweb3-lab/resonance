@@ -20,12 +20,17 @@
   "license": "MIT",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "create:agent": "node scripts/create-agent.js"
+    "create:agent": "node scripts/create-agent.js",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push",
+    "prisma:studio": "prisma studio",
+    "prisma:seed": "ts-node scripts/seed.ts"
   },
   "dependencies": {
+    "@prisma/client": "^6.0.0",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"
@@ -33,6 +38,7 @@
   "devDependencies": {
     "@types/node": "latest",
     "@types/react": "latest",
+    "prisma": "^6.0.0",
     "typescript": "latest"
   }
 }

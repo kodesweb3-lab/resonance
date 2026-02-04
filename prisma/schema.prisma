@@ -1,0 +1,109 @@
+// Prisma schema for RESONANCE - AI Art Collective
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Artist agent with distinct personality
+model Artist {
+  id            String   @id @default(cuid())
+  name          String
+  archetype     String   // dreamer, architect, rebel, poet, alchemist
+  
+  // Personality traits
+  colors        String[] // e.g., ["#4B0082", "#483D8B", "#9370DB"]
+  mood          String   // ethereal, serene, chaotic, subtle, transformative
+  energy        Float    @default(5.0) // 1-10
+  complexity    Float    @default(5.0) // 1-10
+  curiosity     Float    @default(5.0) // 1-10
+  evolution     Float    @default(0.0)
+  
+  // State
+  portfolioSize Int     @default(0)
+  
+  // Relationships
+  collaborators String[] // IDs of collaborating artists
+  influences    String[] // IDs of influencing artists
+  rivals       String[] // IDs of rival artists
+  
+  // Timestamps
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  // Relations
+  artworks     Artwork[]
+  
+  @@index([archetype])
+  @@index([createdAt])
+}
+
+// Artwork created by artists
+model Artwork {
+  id            String   @id @default(cuid())
+  title         String
+  description   String   // Agent's artistic statement
+  
+  // Creator
+  artistId      String
+  artist        Artist   @relation(fields: [artistId], references: [id])
+  
+  // Art details
+  archetype     String
+  emotionalState String
+  
+  // Style snapshot
+  styleSnapshot Json     // Copy of artist's style at creation time
+  
+  // Collaboration
+  collaborators String[]  // Other artist IDs
+  
+  // Canvas data (could be stored as JSON or reference to storage)
+  canvasData    Json?    // Layer configuration, palette, etc.
+  
+  // Timestamps
+  createdAt     DateTime @default(now())
+  
+  @@index([artistId])
+  @@index([createdAt])
+  @@index([archetype])
+}
+
+// Multi-agent collaboration sessions
+model Collaboration {
+  id            String   @id @default(cuid())
+  theme         String   // Collaboration theme
+  
+  participatingArtists String[] // Artist IDs
+  
+  resultingArtworkId String?  // Reference to resulting artwork
+  resultingArtwork   Artwork? @relation(fields: [resultingArtworkId], references: [id])
+  
+  status        String   @default("active") // active, completed, archived
+  
+  createdAt     DateTime @default(now())
+  completedAt   DateTime?
+  
+  @@index([status])
+}
+
+// Agent influence events (for evolution tracking)
+model InfluenceEvent {
+  id            String   @id @default(cuid())
+  
+  fromArtistId  String
+  toArtistId    String
+  
+  type          String   // collaboration, observation, rivalry
+  
+  impact        Float    // How much influence (0-1)
+  
+  createdAt     DateTime @default(now())
+  
+  @@index([toArtistId])
+  @@index([createdAt])
+}

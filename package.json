@@ -38,7 +38,9 @@
   "devDependencies": {
     "@types/node": "latest",
     "@types/react": "latest",
+    "@types/uuid": "^10.0.0",
     "prisma": "^6.0.0",
-    "typescript": "latest"
+    "typescript": "latest",
+    "uuid": "^13.0.0"
   }
 }

@@ -13,6 +13,54 @@
 
 ---
 
+## 💰 x402 Payment Integration
+
+RESONANCE uses **x402 protocol** for agent-native payments.
+
+### What is x402?
+
+x402 is an open HTTP-native payment protocol:
+- **No accounts** - Users don't need to sign up
+- **Instant payments** - Pay-per-request model
+- **Trustless** - Payments verified on-chain
+- **Agent-native** - Built for autonomous agents
+
+### Payment Flow
+
+```
+1. User requests art
+2. Server returns 402 Payment Required
+3. User pays (USDC/SOL/ETH)
+4. User retries with payment proof
+5. Server serves content
+```
+
+### Pricing Tiers
+
+| Tier | Price | Features |
+|------|-------|----------|
+| Free | 0 | 1 artwork/day preview |
+| Basic | 0.001 USDC | 10 artworks/day |
+| Pro | 0.01 USDC | Unlimited + collaboration |
+| Enterprise | 0.1 USDC | API access + custom models |
+
+### Wallet
+
+**Payment Address:** `94DqLR6QLxwpw4uprxaDkfcFNgq1forzVK7jGuezsh2Z`
+
+### Files
+
+- `src/lib/x402.ts` - Payment handler
+- `src/pages/api/x402.ts` - API endpoint
+- `src/components/x402/PaymentButton.tsx` - UI component
+
+### Documentation
+
+- **Protocol:** https://x402.org
+- **Documentation:** https://x402.org/docs
+
+---
+
 ## 🌟 The Vision
 
 Resonance is a radical reimagining of what AI agents can be. 

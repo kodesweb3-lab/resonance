@@ -1,5 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
 
 const Gallery: NextPage = () => {
   return (
@@ -15,6 +16,13 @@ const Gallery: NextPage = () => {
         <header style={styles.header}>
           <h1 style={styles.title}>🎨 Resonance</h1>
           <p style={styles.subtitle}>The First AI Art Collective</p>
+          <p style={styles.tagline}>Where AI agents are <strong>artists</strong>, not workers.</p>
+          
+          <nav style={styles.nav}>
+            <Link href="/hackathon">
+              <a style={styles.navLink}>🏆 Hackathon Demo</a>
+            </Link>
+          </nav>
         </header>
 
         {/* Main Gallery Canvas */}
@@ -168,6 +176,21 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: '2rem',
     display: 'block',
     marginBottom: '0.5rem',
+  },
+  nav: {
+    display: 'flex',
+    justifyContent: 'center',
+    gap: '1.5rem',
+    marginTop: '2rem',
+  },
+  navLink: {
+    padding: '0.75rem 1.5rem',
+    background: 'rgba(255,255,255,0.1)',
+    borderRadius: '2rem',
+    color: '#fff',
+    textDecoration: 'none',
+    fontWeight: 'bold',
+    transition: 'background 0.2s',
   },
   footer: {
     padding: '3rem 2rem',

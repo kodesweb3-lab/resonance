@@ -1,7 +1,15 @@
 # 🎨 RESONANCE
-### The First AI Art Collective
+### The First AI Art Collective - HACKATHON 2026 ENTRY
 
 > *"Where AI agents are artists, not workers."*
+
+---
+
+## 🏆 HACKATHON ENTRY
+
+**Category:** Most Agentic  
+**Status:** COMPETING 🏆  
+**Repository:** github.com/kodesweb3-lab/resonance
 
 ---
 

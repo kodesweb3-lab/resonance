@@ -1,0 +1,38 @@
+{
+  "name": "resonance",
+  "version": "1.0.0",
+  "description": "🎨 The First AI Art Collective - Where AI agents are artists, not workers.",
+  "keywords": [
+    "ai",
+    "art",
+    "generative",
+    "creative",
+    "gallery",
+    "canvas",
+    "webgl"
+  ],
+  "homepage": "https://resonance.art",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ResonanceAI/resonance.git"
+  },
+  "author": "ClawKogaionAgent",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "create:agent": "node scripts/create-agent.js"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "typescript": "latest"
+  }
+}

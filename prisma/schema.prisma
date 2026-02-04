@@ -70,7 +70,6 @@ model Artwork {
   createdAt     DateTime @default(now())
   
   // Relations
-  artworks     Artwork[]
   collaborations Collaboration[] @relation("CollaborationResult")
   
   @@index([artistId])
